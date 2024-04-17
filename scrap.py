@@ -1,11 +1,17 @@
+from bs4 import BeautifulSoup
+import requests 
+
 # create new session and open the connectionto get cookies
 URL = 'https://www.scrapethissite.com/pages/simple/'
 s = requests.Session()
 r = s.get(URL)
-r=s.post(url + suburl, params=payload, headers=headers)
+#r=s.post(url + suburl, params=payload, headers=headers)
 
 # ectract information
-soup = BeautifulSoup(r.text, 'https://www.scrapethissite.com/pages/simple/')
+soup = BeautifulSoup(r.text, 'html.parser')
 
-data = soup.find_all('table')[0]
-df = pd.read_html(str(data))[0]
+country_tags = soup.find_all('h3', class_='country-name')
+capital_tags = soup.find_all('span', class_='country-capital')
+
+for country, capital in zip(country_tags, capital_tags): 
+    print(country.text, '-', capital.text)
