@@ -6,3 +6,6 @@ r=s.post(url + suburl, params=payload, headers=headers)
 
 # ectract information
 soup = BeautifulSoup(r.text, 'https://www.scrapethissite.com/pages/simple/')
+
+data = soup.find_all('table')[0]
+df = pd.read_html(str(data))[0]
